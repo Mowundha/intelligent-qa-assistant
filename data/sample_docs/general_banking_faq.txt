@@ -1,0 +1,14 @@
+Q: What are the banking hours?
+A: Banking hours are Monday to Friday 10am to 4pm and Saturday 10am to 2pm. ATMs are available 24x7.
+
+Q: How do I register for internet banking?
+A: Visit your nearest branch with ID proof to get internet banking credentials or register through our mobile app.
+
+Q: What is KYC and why is it needed?
+A: KYC stands for Know Your Customer. It is a mandatory process to verify customer identity as per RBI regulations.
+
+Q: How do I reset my internet banking password?
+A: You can reset your password through forgot password option on internet banking portal using your registered mobile number.
+
+Q: How do I contact customer care?
+A: You can reach customer care through 24x7 helpline number, email support, or live chat on our website or mobile app.

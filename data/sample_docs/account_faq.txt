@@ -1,0 +1,14 @@
+Q: How do I check my account balance?
+A: You can check your account balance through internet banking, mobile app, ATM, or by visiting your nearest branch.
+
+Q: How do I open a savings account?
+A: To open a savings account, visit your nearest branch with valid ID proof, address proof, and passport size photographs.
+
+Q: What is the minimum balance required?
+A: The minimum balance required for a savings account is 1000 rupees for regular accounts and 5000 rupees for premium accounts.
+
+Q: How do I close my bank account?
+A: To close your account, visit your nearest branch with your passbook, debit card, and a signed account closure form.
+
+Q: How do I update my mobile number in bank account?
+A: You can update your mobile number by visiting the branch with your ID proof or through internet banking settings.
