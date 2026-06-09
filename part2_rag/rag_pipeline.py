@@ -15,11 +15,11 @@ vectorizer = joblib.load("../part1_nlp/vectorizer.pkl")
 # 4. Main function
 def answer_query(query):
     # classify → retrieve → LLM → return answer
-    vectorize= vectorizer.transform([query])
-    prediction= classifier.predict(vectorize)
+    # vectorize= vectorizer.transform([query])
+    # prediction= classifier.predict(vectorize)
 
-    if prediction == 42:
-        return "I don't know" , []
+    # if prediction[0] == 42:
+    #     return "I don't know" , []
     
     retriever_result= retriever.invoke(query)
 
@@ -30,7 +30,8 @@ def answer_query(query):
 
     response = client.chat.completions.create(
     # model="llama3-8b-8192",
-    model="llama3-70b-8192",
+    # model="llama3-70b-8192",
+    model="llama-3.3-70b-versatile",
     messages=[
         {"role": "system", "content": "You are a helpful banking assistant. Answer only from the given context. If answer not in context say I don't know."},
         {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {query}"}
