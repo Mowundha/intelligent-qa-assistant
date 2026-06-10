@@ -5,6 +5,8 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 import os
 
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 docs = []
 for file in os.listdir("../data/sample_docs"):
     full_path = os.path.join("../data/sample_docs", file)

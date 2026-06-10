@@ -1,6 +1,9 @@
 # from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
+import os
+
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 # 2. Load embeddings (same model as ingest.py!)
 embeddings= HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
