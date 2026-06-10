@@ -1,62 +1,136 @@
 import streamlit as st
 from rag_pipeline import answer_query
 
-st.title("Intelligent Q&A Assistant")
+# Page config
+st.set_page_config(
+    page_title="Banking Q&A Assistant",
+    page_icon="🏦",
+    layout="centered"
+)
 
-query = st.text_input("Ask a question:")
+# Custom CSS
+st.markdown("""
+    <style>
+    .main { background-color: #f5f7fa; }
+    .stButton>button {
+        background-color: #1a73e8;
+        color: white;
+        border-radius: 8px;
+        padding: 8px 24px;
+        font-size: 16px;
+    }
+    .answer-box {
+        background-color: #e8f5e9;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 5px solid #2e7d32;
+        margin: 10px 0;
+    }
+    .idk-box {
+        background-color: #fce4ec;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 5px solid #c62828;
+        margin: 10px 0;
+    }
+    .source-box {
+        background-color: #e3f2fd;
+        padding: 10px;
+        border-radius: 8px;
+        margin: 5px 0;
+    }
+    .chat-question {
+        background-color: #1a73e8;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 10px;
+        margin: 5px 0;
+        text-align: right;
+    }
+    .chat-answer {
+        background-color: #ffffff;
+        padding: 10px 15px;
+        border-radius: 10px;
+        margin: 5px 0;
+        border: 1px solid #e0e0e0;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-if st.button("Ask"):
-    if query:
-        answer, sources = answer_query(query)
+# Header
+st.title("🏦 Banking Q&A Assistant")
+# st.markdown("*Powered by RAG + Groq LLM*")
+st.divider()
 
-        st.write("### Answer")
-        st.write(answer)
+# Initialize chat history
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
 
-        st.write("### Sources")
-        for i, chunk in enumerate(sources):
-            st.expander(f"Chunk {i+1}").write(chunk.page_content)
+# Show chat history
+if st.session_state.chat_history:
+    st.subheader("💬 Conversation History")
+    for item in st.session_state.chat_history:
+        st.markdown(f'<div class="chat-question">🧑 {item["question"]}</div>',
+                   unsafe_allow_html=True)
+        if "I don't know" in item["answer"]:
+            st.markdown(f'<div class="idk-box">🤖 {item["answer"]}</div>',
+                       unsafe_allow_html=True)
+        else:
+            st.markdown(f'<div class="chat-answer">🤖 {item["answer"]}</div>',
+                       unsafe_allow_html=True)
+    st.divider()
+
+# Input section
+st.subheader("Ask a Question")
+query = st.text_input(
+    "Your Question:",
+    placeholder="e.g. How do I check my account balance?"
+)
+
+col1, col2 = st.columns([1, 5])
+with col1:
+    ask_btn = st.button("Ask")
+with col2:
+    if st.button("Clear History"):
+        st.session_state.chat_history = []
+        st.rerun()
+
+# When Ask is clicked
+if ask_btn:
+    if query.strip() == "":
+        st.warning("⚠️ Please enter a question!")
     else:
-        st.warning("Please enter a question!")
+        with st.spinner(" Searching knowledge base..."):
+            answer, chunks = answer_query(query)
 
+        # Add to history
+        st.session_state.chat_history.append({
+            "question": query,
+            "answer": answer
+        })
 
+        # Show answer
+        st.divider()
+        st.subheader(" Answer")
 
+        if "I don't know" in answer:
+            st.markdown(
+                f'<div class="idk-box">❌ {answer}</div>',
+                unsafe_allow_html=True
+            )
+            st.info("💡 This question is outside the scope of our banking knowledge base.")
+        else:
+            st.markdown(
+                f'<div class="answer-box">✅ {answer}</div>',
+                unsafe_allow_html=True
+            )
 
-
-# import streamlit as st
-# from rag_pipeline import answer_query
-
-# # Page config
-# st.set_page_config(
-#     page_title="Intelligent Q&A Assistant",
-#     page_icon="🤖",
-#     layout="centered"
-# )
-
-# # Header
-# st.title("🤖 Intelligent Q&A Assistant")
-# st.markdown("Ask questions about **banking, loans, cards & transactions**")
-# st.divider()
-
-# # Input
-# query = st.text_input("💬 Your Question:", placeholder="e.g. How do I check my account balance?")
-
-# if st.button("Ask", type="primary", use_container_width=True):
-#     if query:
-#         with st.spinner("Thinking..."):
-#             answer, sources = answer_query(query)
-
-#         # Answer box
-#         if answer == "I don't know":
-#             st.error("❌ I don't know — question is out of scope.")
-#         else:
-#             st.success("✅ Answer")
-#             st.write(answer)
-
-#             # Sources
-#             st.divider()
-#             st.markdown(f"📚 **{len(sources)} source chunks used:**")
-#             for i, chunk in enumerate(sources):
-#                 with st.expander(f"📄 Chunk {i+1}"):
-#                     st.write(chunk.page_content)
-#     else:
-#         st.warning("⚠️ Please enter a question first!")
+        # Show sources
+        if chunks:
+            st.subheader("📚 Sources Used")
+            for i, chunk in enumerate(chunks):
+                with st.expander(f"📄 Source {i+1}"):
+                    st.markdown(
+                        f'<div class="source-box">{chunk.page_content}</div>',
+                        unsafe_allow_html=True
+                    )

@@ -33,7 +33,7 @@ def answer_query(query):
     # model="llama3-70b-8192",
     model="llama-3.3-70b-versatile",
     messages=[
-        {"role": "system", "content": "You are a helpful banking assistant. Answer only from the given context. If answer not in context say I don't know."},
+        {"role": "system", "content": "You are a helpful banking assistant. Use the provided context to answer the question. Give a clear and complete answer based on the context. Only say 'I don't know' if the context has absolutely no relevant information."},
         {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {query}"}
     ]
     )
@@ -43,7 +43,3 @@ def answer_query(query):
     
 
     
-if __name__ == "__main__":
-    answer, chunks = answer_query("how to check my account balance")
-    print("Answer:", answer)
-    print("Sources:", len(chunks), "chunks used")
