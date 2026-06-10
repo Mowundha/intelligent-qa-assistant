@@ -8,4 +8,4 @@ python-dotenv
 streamlit
 joblib
 scikit-learn==1.6.1
-torch==2.0.0+cpu
+torch==2.0.0
