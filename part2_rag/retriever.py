@@ -14,7 +14,14 @@ embeddings = HuggingFaceEmbeddings(
 )
 
 # 3. Load vectorstore from disk
-vectorstore=  FAISS.load_local("vectorstore", embeddings, allow_dangerous_deserialization=True)
+# vectorstore=  FAISS.load_local("vectorstore", embeddings, allow_dangerous_deserialization=True)
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+vectorstore = FAISS.load_local(
+    os.path.join(BASE_DIR, "vectorstore"),
+    embeddings,
+    allow_dangerous_deserialization=True
+)
 
 
 # 4. Create retriever with K=3
