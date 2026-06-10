@@ -6,4 +6,6 @@ groq
 python-dotenv
 streamlit
 joblib
-scikit-learn
+scikit-learn==1.6.1
+torch
+torchvision
