@@ -19,9 +19,16 @@ splitter = RecursiveCharacterTextSplitter(
 )
 chunks = splitter.split_documents(docs)
 
+# embeddings = HuggingFaceEmbeddings(
+#     model_name="all-MiniLM-L6-v2"
+# )
+
 embeddings = HuggingFaceEmbeddings(
-    model_name="all-MiniLM-L6-v2"
+    model_name="all-MiniLM-L6-v2",
+    model_kwargs={"device": "cpu"},
+    encode_kwargs={"normalize_embeddings": False}
 )
+
 
 vectorstore = FAISS.from_documents(chunks, embeddings)
 vectorstore.save_local("vectorstore")
