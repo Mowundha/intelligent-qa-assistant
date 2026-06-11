@@ -4,6 +4,7 @@ A Banking FAQ chatbot built with RAG (Retrieval-Augmented Generation) pipeline.
 
 ## Project Structure
 
+```
 aiml-assignment/
 ├── data/sample_docs/     ← Knowledge base documents
 ├── part1_nlp/
@@ -16,6 +17,7 @@ aiml-assignment/
 ├── approach.md
 ├── test_cases.md
 └── requirements.txt
+```
 
 ## Setup
 
